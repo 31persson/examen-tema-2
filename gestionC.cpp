@@ -41,7 +41,7 @@ void mostrarEstudiante(const struct Estudiante* estudiante) {
 
     printf("Materias inscritas:\n");
     for (size_t i = 0; i < estudiante->numMaterias; ++i) {
-        printf("  Nombre: %s, Créditos: %d\n", estudiante->materias[i].nombre, estudiante->materias[i].creditos);
+        printf("  Nombre: %s, Creditos: %d\n", estudiante->materias[i].nombre, estudiante->materias[i].creditos);
     }
 }
 
@@ -93,4 +93,35 @@ void liberarEstudiante(struct Estudiante* estudiante) {
 
 int main() {
     // Crear un objeto Estudiante
+    struct Estudiante* estudiante1 = (struct Estudiante*)malloc(sizeof(struct Estudiante));
+    if (estudiante1 == NULL) {
+        fprintf(stderr, "Error al asignar memoria para el estudiante\n");
+        return 1;
+    }
 
+    // Inicializar el estudiante
+    inicializarEstudiante(estudiante1);
+
+    // Asignar valores a los campos
+    snprintf(estudiante1->nombre, sizeof(estudiante1->nombre), "%s", "Juan");
+    estudiante1->edad = 20;
+    estudiante1->promedio = 85.5;
+
+    // Agregar materias al estudiante
+    agregarMateria(estudiante1, "Matematicas", 4);
+    agregarMateria(estudiante1, "Historia", 3);
+
+    // Mostrar la información del estudiante
+    mostrarEstudiante(estudiante1);
+
+    // Eliminar una materia del estudiante
+    eliminarMateria(estudiante1, "Matematicas");
+
+    // Mostrar la información actualizada del estudiante
+    mostrarEstudiante(estudiante1);
+
+    // Liberar la memoria del estudiante
+    liberarEstudiante(estudiante1);
+
+    return 0;
+}
