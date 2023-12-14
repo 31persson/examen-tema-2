@@ -50,7 +50,7 @@ void agregarMateria(struct Estudiante* estudiante, const char* nombreMateria, in
     if (estudiante->numMaterias == estudiante->capacidadMaterias) {
         // Si el arreglo está lleno, se necesita realocar más memoria
         estudiante->capacidadMaterias += 5; // Aumentar la capacidad en bloques de 5
-        estudiante->materias = realloc(estudiante->materias, estudiante->capacidadMaterias * sizeof(struct Materia));
+        estudiante->materias = (struct Materia*)realloc(estudiante->materias, estudiante->capacidadMaterias * sizeof(struct Materia));
     }
 
     // Asignar valores a la nueva materia
@@ -77,7 +77,7 @@ void eliminarMateria(struct Estudiante* estudiante, const char* nombreMateria) {
             // Reducir la memoria asignada si es necesario
             if (estudiante->numMaterias < estudiante->capacidadMaterias - 5) {
                 estudiante->capacidadMaterias -= 5; // Reducir la capacidad en bloques de 5
-                estudiante->materias = realloc(estudiante->materias, estudiante->capacidadMaterias * sizeof(struct Materia));
+                estudiante->materias = (struct Materia*)realloc(estudiante->materias, estudiante->capacidadMaterias * sizeof(struct Materia));
             }
 
             break; // Terminar después de encontrar la materia
@@ -93,18 +93,4 @@ void liberarEstudiante(struct Estudiante* estudiante) {
 
 int main() {
     // Crear un objeto Estudiante
-    struct Estudiante* estudiante1 = malloc(sizeof(struct Estudiante));
-    if (estudiante1 == NULL) {
-        fprintf(stderr, "Error al asignar memoria para el estudiante\n");
-        return 1;
-    }
 
-    // Inicializar el estudiante
-    inicializarEstudiante(estudiante1);
-
-    // Asignar valores a los campos
-    snprintf(estudiante1->nombre, sizeof(estudiante1->nombre), "%s", "Juan");
-    estudiante1->edad = 20;
-    estudiante1->promedio = 85.5;
-
-    // Agregar materias al estudiante
